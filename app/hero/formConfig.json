@@ -1,0 +1,10 @@
+{
+  "fields": [
+    {
+      "id": "name",
+      "name": "name",
+      "type": "input",
+      "label": "Name"
+    }
+  ]
+}
