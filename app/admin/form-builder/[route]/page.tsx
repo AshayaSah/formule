@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -25,6 +25,19 @@ export default function FormBuilder() {
     const router = useRouter();
     const params = useParams();
     const route = params.route as string;
+
+    useEffect(() => {
+        async function fetchFormConfig() {
+            const response = await fetch(`/api/get-form-config?route=${encodeURIComponent(route)}`);
+            if (response.ok) {
+                const data = await response.json();
+                setFields(data.fields || []);
+            }
+        }
+        if (route) {
+            fetchFormConfig();
+        }
+    }, [route]);
 
     const addField = () => {
         if (!newFieldLabel) return;
@@ -63,7 +76,7 @@ export default function FormBuilder() {
 
             const data = await response.json();
             console.log(data.message);
-            router.push(`/${route}`);
+            router.push(`/forms/${route}`);
         } catch (error) {
             console.error('Error publishing form:', error);
         }

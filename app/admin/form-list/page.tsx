@@ -13,15 +13,24 @@ interface FormItem {
 }
 
 export default function FormListView() {
-    const [forms, setForms] = useState<FormItem[]>([]); // Replace with API fetch in production
+    const [forms, setForms] = useState<FormItem[]>([]);
     const [newRoute, setNewRoute] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const router = useRouter();
 
-    const handleAddForm = async () => {
+    useEffect(() => {
+        async function fetchRoutes() {
+            const response = await fetch('/api/routes-list', { method: 'GET' });
+            if (response.ok) {
+                const data = await response.json();
+                setForms(data.routes || []);
+            }
+        }
+        fetchRoutes();
+    }, []);
 
+    const handleAddForm = async () => {
         if (newRoute) {
-            // In production, save to backend or local storage
             setForms([...forms, { name: newRoute, route: newRoute }]);
 
             try {
@@ -46,7 +55,6 @@ export default function FormListView() {
             setIsModalOpen(false);
         }
     };
-
 
     return (
         <div className="p-6 max-w-4xl mx-auto">

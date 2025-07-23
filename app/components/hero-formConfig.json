@@ -1,0 +1,11 @@
+{
+  "fields": [
+    {
+      "id": "siu",
+      "name": "siu",
+      "type": "input",
+      "label": "Siu",
+      "placeholder": "Enter SIu"
+    }
+  ]
+}

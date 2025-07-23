@@ -14,29 +14,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid route name' }, { status: 400 });
     }
 
-    const routePath = path.join(process.cwd(), 'app', route);
-    console.log(`Creating directory: ${routePath}`);
-    mkdirSync(routePath, { recursive: true });
+    const componentsPath = path.join(process.cwd(), 'app', 'components');
+    console.log(`Using components directory: ${componentsPath}`);
+    mkdirSync(componentsPath, { recursive: true });
 
-    const configPath = path.join(routePath, 'formConfig.json');
+    const configPath = path.join(componentsPath, `${route}-formConfig.json`);
     console.log(`Writing formConfig.json to: ${configPath}`);
     writeFileSync(configPath, JSON.stringify(formConfig, null, 2));
 
-    const pageContent = `import { Formule } from '../components/Formule';
-    import formConfig from './formConfig.json';
-
-export default function FormPage() {
-  return (
-    <div className="container mx-auto p-4">
-      <Formule config={formConfig} />
-    </div>
-  );
-} `;
-    const pagePath = path.join(routePath, 'page.tsx');
-    console.log(`Writing page.tsx to: ${pagePath}`);
-    writeFileSync(pagePath, pageContent);
-
-    return NextResponse.json({ message: `Form published to app/${route}` });
+    return NextResponse.json({ message: `Form config saved to app/components/${route}-formConfig.json` });
   } catch (error) {
     console.error('Error publishing form:', error);
     return NextResponse.json({ error: 'Failed to publish form' }, { status: 500 });

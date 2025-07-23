@@ -1,0 +1,20 @@
+{
+  "routes": [
+    {
+      "name": "siuu",
+      "route": "siuu"
+    },
+    {
+      "name": "hero",
+      "route": "hero"
+    },
+    {
+      "name": "hel",
+      "route": "hel"
+    },
+    {
+      "name": "hello",
+      "route": "hello"
+    }
+  ]
+}
